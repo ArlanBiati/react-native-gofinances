@@ -26,7 +26,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar style='dark' />
+      <StatusBar style='light' />
       <Dashboard />
     </ThemeProvider>
   );
