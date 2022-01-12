@@ -39,7 +39,7 @@ export const Avatar = styled.Image`
   width: ${RFValue(55)}px;
   height: ${RFValue(55)}px;
 
-  border-radius: 10px;
+  border-radius: 30px;
 `;
 
 export const User = styled.View`
@@ -68,7 +68,7 @@ export const SignIn = styled(Feather)`
 
 export const HighlightCards = styled.ScrollView.attrs({
   horizontal: true,
-  showHorizontalScrollIndicator: false,
+  showsHorizontalScrollIndicator: false,
   contentContainerStyle: { paddingHorizontal: 24 }
 })`
   width: 100%;

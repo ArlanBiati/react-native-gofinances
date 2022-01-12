@@ -1,9 +1,13 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-export const Container = styled.View`
-  background-color: ${({ theme }) => theme.colors.shape};
+interface TypeProps {
+  type: 'up' | 'down' | 'total';
+}
+
+export const Container = styled.View<TypeProps>`
+  background-color: ${({ type, theme }) => type === 'total' ? theme.colors.secondary : theme.colors.shape};
 
   width: ${RFValue(300)}px;
 
@@ -28,8 +32,18 @@ export const Title = styled.Text`
   font-size: ${RFValue(14)}px;
 `;
 
-export const Icon = styled(Feather)`
-  color: ${({ theme }) => theme.colors.success};
+export const Icon = styled(Feather)<TypeProps>`
+  ${({ type }) => type === 'up' && css`
+    color: ${({ theme }) => theme.colors.success};
+  `};
+
+  ${({ type }) => type === 'down' && css`
+    color: ${({ theme }) => theme.colors.attention};
+  `};
+
+  ${({ type }) => type === 'total' && css`
+    color: ${({ theme }) => theme.colors.shape};
+  `};
 
   font-size: ${RFValue(40)}px;
 `;
