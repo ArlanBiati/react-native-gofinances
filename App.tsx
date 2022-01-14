@@ -10,8 +10,9 @@ import {
   useFonts
 } from '@expo-google-fonts/roboto';
 
-import { Dashboard } from './src/screens/Dashboard';
 import AppLoading from 'expo-app-loading';
+import { Dashboard } from './src/screens/Dashboard';
+import { Register } from './src/screens/Register';
 
 export default function App() {
   const [ fontsLoaded ] = useFonts({
@@ -27,7 +28,8 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar style='light' />
-      <Dashboard />
+      {/* <Dashboard /> */}
+      <Register />
     </ThemeProvider>
   );
 }
