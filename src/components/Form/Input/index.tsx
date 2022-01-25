@@ -7,8 +7,6 @@ import {
 
 export function Input({...rest}: TextInputProps){
   return (
-    <Container {...rest}>
-
-    </Container>
+    <Container {...rest}></Container>
   );
 }
