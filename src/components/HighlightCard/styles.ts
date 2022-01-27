@@ -13,6 +13,9 @@ export const Container = styled.View<TypeProps>`
 
   border-radius: 30px;
 
+  border-color: ${({ theme }) => theme.colors.primary};
+  border-width: 2px;
+
   padding: 19px 23px;
   padding-bottom: ${RFValue(42)}px;
 
