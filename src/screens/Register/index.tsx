@@ -93,8 +93,8 @@ export function Register(){
       const data = await AsyncStorage.getItem(collectionKey);
       const currentData = data ? JSON.parse(data) : [];
       const dataFormatted = [
-        ...currentData,
-        newTransaction
+        newTransaction,
+        ...currentData
       ]
       await AsyncStorage.setItem(collectionKey, JSON.stringify(dataFormatted));
 

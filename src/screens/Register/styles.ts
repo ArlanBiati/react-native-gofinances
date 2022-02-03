@@ -34,7 +34,6 @@ export const Form = styled.View`
   width: 100%;
 
   padding: 24px;
-  margin-bottom: ${getBottomSpace()}px;
 `;
 
 export const Fields = styled.View``;
