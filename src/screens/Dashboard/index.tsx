@@ -26,6 +26,7 @@ import {
   TransactionsList,
   LoadContainer
 } from './styles';
+import { AwaitTransaction } from '../../components/AwaitTransaction';
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -51,14 +52,13 @@ export function Dashboard(){
   const collectionKey = '@gofinances:transactions';
 
   function getLastTransactionDate(collectionTransations: DataListProps[], type: 'positive' | 'negative') {
-    if(collectionTransations.length) {
-      const lastTransaction = new Date (
-        Math.max.apply(Math, collectionTransations
-          .filter(transaction => transaction.type === type)
-          .map(transaction => new Date(transaction.date).getTime())
-        )
-      )
+    const lastTransaction = new Date
+    (Math.max.apply(Math, collectionTransations
+      .filter(transaction => transaction.type === type)
+      .map(transaction => new Date(transaction.date).getTime())
+    ))
 
+    if (Number.isInteger(lastTransaction)){
       return Intl.DateTimeFormat('pt-BR', {
         day: '2-digit',
         month: 'long'
@@ -198,11 +198,17 @@ export function Dashboard(){
           <Transactions>
             <Title>Listagem</Title>
 
-            <TransactionsList
+            { transaction?.length
+              ?
+              <TransactionsList
               data={transaction}
               keyExtractor={item => item.id}
               renderItem={({ item }) => <TransactionCard data={item} />}
-            />
+              />
+              :
+              <AwaitTransaction />
+            }
+
           </Transactions>
         </>
       }
