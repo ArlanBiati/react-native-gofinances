@@ -19,6 +19,7 @@ import {
   User,
   UserGreeting,
   UserName,
+  ButtonSignIn,
   SignIn,
   HighlightCards,
   Transactions,
@@ -47,9 +48,27 @@ export function Dashboard(){
   const [isLoading, setIsLoading] = useState(true);
   const [transaction, setTransaction] = useState<DataListProps[]>();
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
+  const [greetings, setGreetings] = useState('');
 
   const theme = useTheme();
   const collectionKey = '@gofinances:transactions';
+
+
+  function getHours() {
+    const hours = new Date().getHours();
+
+    let greeting = ''
+
+    if(hours >= 12 && hours < 18) {
+      greeting = 'Boa tarde,';
+    } else if(hours >= 18 && hours < 24) {
+      greeting = 'Boa noite,';
+    } else {
+      greeting = 'Bom dia,';
+    }
+
+    setGreetings(greeting)
+  };
 
   function getLastTransactionDate(collectionTransations: DataListProps[], type: 'positive' | 'negative') {
     const lastTransaction = new Date
@@ -58,12 +77,11 @@ export function Dashboard(){
       .map(transaction => new Date(transaction.date).getTime())
     ))
 
-    if (Number.isInteger(lastTransaction)){
-      return Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: 'long'
-      }).format(lastTransaction);
-    }
+    return Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: 'long'
+    }).format(lastTransaction);
+
   };
 
   async function loadTransactions() {
@@ -133,10 +151,11 @@ export function Dashboard(){
     setTransaction(transactionFormatted);
     setHighlightData(highlightAmountFormatted);
     setIsLoading(false);
-  }
+  };
 
   useEffect(() => {
     loadTransactions();
+    getHours();
   }, []);
 
   useFocusEffect(useCallback(() => {
@@ -158,11 +177,13 @@ export function Dashboard(){
               <UserInfo>
                 <Avatar source={{ uri: 'https://avatars.githubusercontent.com/u/43690080?v=4' }} />
                 <User>
-                  <UserGreeting>Olá</UserGreeting>
+                  <UserGreeting>{greetings}</UserGreeting>
                   <UserName>Arlan Biati</UserName>
                 </User>
               </UserInfo>
-              <SignIn name="power" />
+              <ButtonSignIn>
+                <SignIn name="power" />
+              </ButtonSignIn>
             </UserContainer>
           </Header>
 

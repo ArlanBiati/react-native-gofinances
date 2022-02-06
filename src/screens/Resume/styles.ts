@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { Feather } from '@expo/vector-icons';
 
 export const Container = styled.View`
   flex: 1;
@@ -26,21 +27,32 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
 `;
 
-export const Form = styled.View`
-  flex: 1;
-  justify-content: space-between;
+export const Content = styled.ScrollView``;
 
+export const MonthSelect = styled.View`
   width: 100%;
 
-  padding: 24px;
-`;
-
-export const Fields = styled.View``;
-
-export const TransactionsTypes = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 
-  margin-top: 8px;
-  margin-bottom: 16px;
+  margin-top: 24px;
+`;
+
+export const MonthSelectButton = styled.TouchableOpacity``;
+
+export const SelectIcon = styled(Feather)`
+  font-size: ${RFValue(24)}px;
+`;
+
+export const Month = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(20)}px;
+`;
+
+
+export const ChartContainer = styled.View`
+  width: 100%;
+
+  align-items: center;
 `;

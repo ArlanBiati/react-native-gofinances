@@ -36,7 +36,7 @@ export const Button = styled.TouchableOpacity`
   padding: ${RFValue(20)}px;
   width: 100%;
 
-  border-radius: 20px;
+  border-radius: 30px;
 `
 
 export const ButtonTitle = styled.Text`
