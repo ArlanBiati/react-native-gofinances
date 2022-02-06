@@ -63,6 +63,8 @@ export const UserName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
+export const ButtonSignIn = styled.TouchableOpacity``;
+
 export const SignIn = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};
 
