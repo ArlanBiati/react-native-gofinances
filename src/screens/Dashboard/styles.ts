@@ -101,7 +101,7 @@ export const TransactionsList = styled(
   FlatList as new (props: FlatListProps<DataListProps>) => FlatList<DataListProps>
   ).attrs({
   showsVerticalScrollIndicator: false,
-  contentContainerStyle: { paddingBottom: getBottomSpace() }
+  contentContainerStyle: { marginBottom: getBottomSpace() }
 })``;
 
 export const LoadContainer = styled.View`
