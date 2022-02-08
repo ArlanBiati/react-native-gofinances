@@ -18,6 +18,7 @@ import {
 } from '@expo-google-fonts/roboto';
 
 import { AppRoutes } from './src/routes/app.routes';
+import { SignIn } from './src/screens/SignIn';
 
 export default function App() {
   const [ fontsLoaded ] = useFonts({
@@ -33,9 +34,10 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar style='light' />
-      <NavigationContainer>
+      <SignIn />
+      {/* <NavigationContainer>
         <AppRoutes />
-      </NavigationContainer>
+      </NavigationContainer> */}
     </ThemeProvider>
   );
 }
