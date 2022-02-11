@@ -5,10 +5,12 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider } from 'styled-components';
 import AppLoading from 'expo-app-loading';
+import { NavigationContainer } from '@react-navigation/native';
+
+import { AppRoutes } from './src/routes/app.routes';
+import { SignIn } from './src/screens/SignIn';
 
 import theme from './src/global/themes/theme';
-
-import { NavigationContainer } from '@react-navigation/native';
 
 import {
   Roboto_400Regular,
@@ -16,9 +18,8 @@ import {
   Roboto_700Bold,
   useFonts
 } from '@expo-google-fonts/roboto';
+import { AuthProvider } from './src/hooks/auth';
 
-import { AppRoutes } from './src/routes/app.routes';
-import { SignIn } from './src/screens/SignIn';
 
 export default function App() {
   const [ fontsLoaded ] = useFonts({
@@ -34,7 +35,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar style='light' />
-      <SignIn />
+      <AuthProvider>
+        <SignIn />
+      </AuthProvider>
       {/* <NavigationContainer>
         <AppRoutes />
       </NavigationContainer> */}
