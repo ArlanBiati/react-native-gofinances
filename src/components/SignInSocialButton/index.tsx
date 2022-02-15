@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacityProps } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import {
@@ -7,7 +8,7 @@ import {
   Title
 } from './styles';
 
-interface SignInSocialButtonProps {
+interface SignInSocialButtonProps extends TouchableOpacityProps{
   title: string;
   svg: React.FC<SvgProps>;
 }
