@@ -3,7 +3,6 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
 
-console.log(CLIENT_ID, REDIRECT_URI)
 
 import * as AuthSession from 'expo-auth-session';
 interface AuthProviderProps {
