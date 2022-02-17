@@ -77,10 +77,12 @@ export function Dashboard(){
       .map(transaction => new Date(transaction.date).getTime())
     ))
 
-    return Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: 'long'
-    }).format(lastTransaction);
+    if(Number.isInteger(lastTransaction)) {
+      return Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: 'long'
+      }).format(lastTransaction);
+    }
 
   };
 

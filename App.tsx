@@ -1,14 +1,15 @@
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
+import 'react-native-gesture-handler';
 
 import React from 'react';
+
 import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider } from 'styled-components';
 import AppLoading from 'expo-app-loading';
-import { NavigationContainer } from '@react-navigation/native';
 
-import { AppRoutes } from './src/routes/app.routes';
-import { SignIn } from './src/screens/SignIn';
+import { AuthProvider } from './src/hooks/auth';
+import { Routes } from './src/routes';
 
 import theme from './src/global/themes/theme';
 
@@ -18,7 +19,7 @@ import {
   Roboto_700Bold,
   useFonts
 } from '@expo-google-fonts/roboto';
-import { AuthProvider } from './src/hooks/auth';
+
 
 
 export default function App() {
@@ -36,11 +37,8 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <StatusBar style='light' />
       <AuthProvider>
-        <SignIn />
+        <Routes />
       </AuthProvider>
-      {/* <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer> */}
     </ThemeProvider>
   );
 }
