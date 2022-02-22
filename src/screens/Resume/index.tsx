@@ -1,8 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { VictoryPie } from 'victory-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { ActivityIndicator } from 'react-native';
+
+import { useFocusEffect } from '@react-navigation/native';
+import { useAuth } from '../../hooks/auth';
 
 import { addMonths, subMonths, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -26,8 +29,6 @@ import {
   ChartContainer,
   LoadContainer
 } from './styles';
-import { useFocusEffect } from '@react-navigation/native';
-
 
 interface TransactionData {
   type: 'positive' | 'negative';
@@ -51,6 +52,8 @@ export function Resume(){
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
 
+  const { user } = useAuth();
+
   const theme = useTheme();
 
   function handleChangeDate(action: 'next' | 'prev') {
@@ -66,7 +69,7 @@ export function Resume(){
   async function loadData() {
     setIsLoading(true);
 
-    const collectionKey = '@gofinances:transactions';
+    const collectionKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(collectionKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 
