@@ -5,10 +5,14 @@ import {
   Modal,
   TouchableWithoutFeedback
 } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
+import { useAuth } from '../../hooks/auth';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 
@@ -38,6 +42,10 @@ const schema = Yup.object().shape({
 });
 
 export function Register(){
+  const [transactionType, setTransactionType] = useState('');
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const { user } = useAuth();
+
   const [category, setCategory] = useState({
     key: 'category',
     name: 'Categoria'
@@ -54,10 +62,8 @@ export function Register(){
     resolver: yupResolver(schema)
   });
 
-  const [transactionType, setTransactionType] = useState('');
-  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
-  const collectionKey = '@gofinances:transactions';
+  const collectionKey = `@gofinances:transactions_user:${user.id}`;
 
   const navigation = useNavigation();
 

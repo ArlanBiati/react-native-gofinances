@@ -37,7 +37,7 @@ export interface DataListProps extends TransactionCardProps {
 
 interface HighlightProps {
   amount: string;
-  lastTransaction: string | undefined;
+  lastTransaction: string | number;
 }
 
 interface HighlightData {
@@ -55,7 +55,7 @@ export function Dashboard(){
   const { signOut, user } = useAuth();
   const theme = useTheme();
 
-  const collectionKey = '@gofinances:transactions';
+  const collectionKey = `@gofinances:transactions_user:${user.id}`;
 
 
   function getHours() {
@@ -75,18 +75,19 @@ export function Dashboard(){
   };
 
   function getLastTransactionDate(collectionTransations: DataListProps[], type: 'positive' | 'negative') {
+    const collectionTransationsFiltered = collectionTransations.filter(transaction => transaction.type === type)
+
+    if(collectionTransationsFiltered.length === 0) return 0
+
     const lastTransaction = new Date
-    (Math.max.apply(Math, collectionTransations
-      .filter(transaction => transaction.type === type)
+    (Math.max.apply(Math, collectionTransationsFiltered
       .map(transaction => new Date(transaction.date).getTime())
     ))
 
-    if(Number.isInteger(lastTransaction)) {
-      return Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: 'long'
-      }).format(lastTransaction);
-    }
+    return Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: 'long'
+    }).format(lastTransaction);
 
   };
 
@@ -216,7 +217,7 @@ export function Dashboard(){
               title='Total'
               amount={highlightData.total.amount}
               lastTransaction={
-                highlightData.total.lastTransaction ? '01 à ' + highlightData.expensive.lastTransaction + '.' : ''
+                highlightData.total.lastTransaction ? '01 à ' + highlightData.expensive.lastTransaction + '.' : 'Não existe transações cadastradas'
               }
               type='total'
             />
