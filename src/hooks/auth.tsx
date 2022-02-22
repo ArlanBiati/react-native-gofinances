@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
@@ -21,6 +21,8 @@ interface IAuthContextDataProps {
   user: UserProps;
   signInWithGoogle(): Promise<void>;
   signInWithApple(): Promise<void>;
+  signOut(): Promise<void>;
+  userStorageLoading: boolean;
 };
 
 interface AuthorizationResponse {
@@ -34,6 +36,7 @@ const AuthContext = createContext({} as IAuthContextDataProps);
 
 function AuthProvider({ children }:AuthProviderProps) {
   const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [userStorageLoading, setUserStorageLoading] = useState(true);
 
   const collectionKey = '@gofinances:user';
 
@@ -81,7 +84,7 @@ function AuthProvider({ children }:AuthProviderProps) {
           id: String(credential.user),
           email: credential.email!,
           name: credential.fullName!.givenName!,
-          photo: undefined
+          photo: `https://ui-avatars.com/api/?name=${credential.fullName!.givenName!}&length=1`
         }
 
         setUser(userLoggedIn);
@@ -93,11 +96,31 @@ function AuthProvider({ children }:AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    setUser({} as UserProps);
+    await AsyncStorage.removeItem(collectionKey);
+  }
+
+  useEffect(() => {
+    async function loadUserStorageData() {
+      const userStorage = await AsyncStorage.getItem(collectionKey)
+
+      if(userStorage) {
+        const userLogged = JSON.parse(userStorage) as UserProps;
+        setUser(userLogged);
+      }
+      setUserStorageLoading(false);
+    }
+    loadUserStorageData();
+  }, []);
+
   return (
     <AuthContext.Provider value={{
       user,
       signInWithGoogle,
-      signInWithApple
+      signInWithApple,
+      signOut,
+      userStorageLoading
     }}>
       { children }
     </AuthContext.Provider>

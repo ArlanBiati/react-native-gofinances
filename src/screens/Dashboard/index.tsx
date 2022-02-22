@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '../../hooks/auth';
+
 import { ActivityIndicator } from 'react-native';
 
 import { useFocusEffect } from '@react-navigation/native';
@@ -8,6 +10,7 @@ import { useTheme } from 'styled-components';
 
 import { HighlightCard } from '../../components/HighlightCard';
 import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard';
+import { AwaitTransaction } from '../../components/AwaitTransaction';
 
 
 import {
@@ -27,7 +30,6 @@ import {
   TransactionsList,
   LoadContainer
 } from './styles';
-import { AwaitTransaction } from '../../components/AwaitTransaction';
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -50,7 +52,9 @@ export function Dashboard(){
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
   const [greetings, setGreetings] = useState('');
 
+  const { signOut, user } = useAuth();
   const theme = useTheme();
+
   const collectionKey = '@gofinances:transactions';
 
 
@@ -177,13 +181,13 @@ export function Dashboard(){
           <Header>
             <UserContainer>
               <UserInfo>
-                <Avatar source={{ uri: 'https://avatars.githubusercontent.com/u/43690080?v=4' }} />
+                <Avatar source={{ uri: user.photo }} />
                 <User>
                   <UserGreeting>{greetings}</UserGreeting>
-                  <UserName>Arlan Biati</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
-              <ButtonSignIn>
+              <ButtonSignIn onPress={signOut}>
                 <SignIn name="power" />
               </ButtonSignIn>
             </UserContainer>
