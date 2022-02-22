@@ -8,7 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider } from 'styled-components';
 import AppLoading from 'expo-app-loading';
 
-import { AuthProvider } from './src/hooks/auth';
+import { AuthProvider, useAuth } from './src/hooks/auth';
 import { Routes } from './src/routes';
 
 import theme from './src/global/themes/theme';
@@ -28,8 +28,9 @@ export default function App() {
     Roboto_500Medium,
     Roboto_700Bold
   })
+  const { userStorageLoading } = useAuth();
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || userStorageLoading) {
     return <AppLoading />
   }
 
