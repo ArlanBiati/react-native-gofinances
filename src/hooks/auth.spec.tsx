@@ -1,64 +1,40 @@
+import fetchMock from 'jest-fetch-mock';
 import { act, renderHook } from "@testing-library/react-hooks";
 import { startAsync } from "expo-auth-session";
 import { AuthProvider, useAuth } from "./auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 jest.mock('expo-apple-authentication', () => {});
 
-jest.mock('expo-auth-session', () => {
-  return {
-    startAsync: () => {
-      return {
-        type: 'success',
-        params: {
-          access_token: 'google-token'
-        }
-      }
-    },
-    // logInAsync: () => {
-    //   return {
-    //     type: 'success',
-    //     user: {
-    //       id: 'any_id',
-    //       email: 'arlan.gustavo.biati@gmail.com',
-    //       name: 'Arlan',
-    //       photo: 'any_photo.png'
-    //     }
-    //   }
-    // }
-  }
-});
+jest.mock('expo-auth-session');
+
+fetchMock.enableMocks();
+
+const userTest = {
+  id: 'any_id',
+  email: 'arlan.gustavo.biati@gmail.com',
+  name: 'Arlan',
+  photo: 'any_photo.png'
+};
 
 describe('Auth Hook', () => {
+
+  beforeEach(async () => {
+    const userCollectionKey = '@gofinances:user';
+    await AsyncStorage.removeItem(userCollectionKey);
+  });
+
   it('should be able to sign in with Google account existing', async () => {
     const googleMocked = jest.mocked(startAsync as any);
 
-    googleMocked.mockReturnValue({
+    googleMocked.mockResolvedValueOnce({
       type: 'success',
         params: {
           access_token: 'google-token'
         }
     });
 
-    // googleMocked.mockReturnValue({
-    //   type: 'success',
-    //   user: {
-    //     id: 'any_id',
-    //     email: 'arlan.gustavo.biati@gmail.com',
-    //     name: 'Arlan',
-    //     photo: 'any_photo.png'
-    //   }
-    // });
-
-    // global.fetch = jest.fn(() => Promise.resolve({
-    //   json: () => Promise.resolve({
-    //     id: `userInfo.id`,
-    //     email: `userInfo.email`,
-    //     name: `userInfo.given_name`,
-    //     photo: `userInfo.picture`,
-    //     locale: `userInfo.locale`,
-    //     verified_email: `userInfo.verified_email`
-    //   })
-    // })) as jest.Mock;
+    fetchMock.mockResponseOnce(JSON.stringify(userTest));
 
     const { result } = renderHook(() => useAuth(), {
       wrapper: AuthProvider
@@ -70,15 +46,22 @@ describe('Auth Hook', () => {
 
   });
 
-  // it('user should not connect if cancel authentication with Google', async () => {
+  it('user should not connect if cancel authentication with Google', async () => {
 
-  //   const { result } = renderHook(() => useAuth(), {
-  //     wrapper: AuthProvider
-  //   });
+    const googleMocked = jest.mocked(startAsync as any);
 
-  //   await act(async () => result.current.signInWithGoogle());
+    googleMocked.mockResolvedValueOnce({
+      id: 'any_id',
+      email: 'arlan.gustavo.biati@gmail.com'
+    });
 
-  //   expect(result.current.user).not.toHaveProperty('id');
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider
+    });
 
-  // });
+    await act(async () => result.current.signInWithGoogle());
+
+    expect(result.current.user).not.toHaveProperty('id');
+
+  });
 });

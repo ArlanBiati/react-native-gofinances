@@ -8,5 +8,7 @@ module.exports = {
   setupFilesAfterEnv: [
     "@testing-library/jest-native/extend-expect"
   ],
+  automock: false,
+  resetMocks: false,
   setupFiles: ["./jestSetupFile.js"]
 }
