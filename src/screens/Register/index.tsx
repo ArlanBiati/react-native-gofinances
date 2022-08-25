@@ -62,9 +62,6 @@ export function Register(){
     resolver: yupResolver(schema)
   });
 
-
-  const collectionKey = `@gofinances:transactions_user:${user.id}`;
-
   const navigation = useNavigation();
 
   function handleTransactionsTypeSelect(type: 'positive' | 'negative') {
@@ -96,6 +93,8 @@ export function Register(){
     }
 
     try {
+      const collectionKey = `@gofinances:transactions_user:${user.id}`
+
       const data = await AsyncStorage.getItem(collectionKey);
       const currentData = data ? JSON.parse(data) : [];
       const dataFormatted = [
@@ -179,7 +178,7 @@ export function Register(){
           <Button title='Enviar' onPress={handleSubmit(handleRegister)} />
         </Form>
 
-        <Modal visible={categoryModalOpen}>
+        <Modal testID='modal-category' visible={categoryModalOpen}>
           <CategorySelect
             category={category}
             setCategory={setCategory}
