@@ -173,6 +173,7 @@ export function Register(){
             <CategorySelectButton
               title={category.name}
               onPress={handleOpenSelectCategoryModal}
+              testID='button-category'
             />
           </Fields>
           <Button title='Enviar' onPress={handleSubmit(handleRegister)} />
