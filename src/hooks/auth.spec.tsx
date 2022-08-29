@@ -64,4 +64,24 @@ describe('Auth Hook', () => {
     expect(result.current.user).not.toHaveProperty('id');
 
   });
+
+  it('should be error with incorrectly Google parameters', async () => {
+
+    // const googleMocked = jest.mocked(startAsync as any);
+
+    // googleMocked.mockResolvedValueOnce({
+    //   id: 'any_id',
+    //   email: 'arlan.gustavo.biati@gmail.com'
+    // });
+
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider
+    });
+
+    try {
+      await act(async () => result.current.signInWithGoogle());
+    } catch (error) {
+      expect(result.current.user).toEqual({});
+    };
+  });
 });
