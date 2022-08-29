@@ -10,5 +10,13 @@ module.exports = {
   ],
   automock: false,
   resetMocks: false,
-  setupFiles: ["./jestSetupFile.js"]
+  setupFiles: ["./jestSetupFile.js"],
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.tsx",
+    "!src/**/*.spec.tsx"
+  ],
+  coverageReporters: [
+    "lcov"
+  ]
 }
