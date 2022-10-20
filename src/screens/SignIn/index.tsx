@@ -18,10 +18,10 @@ import {
   Title,
   SignTitle,
   Footer,
-  FooterWrapper
+  FooterWrapper,
 } from './styles';
 
-export function SignIn(){
+export function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { signInWithGoogle, signInWithApple } = useAuth();
@@ -71,18 +71,34 @@ export function SignIn(){
 
       <Footer>
         <FooterWrapper>
-          {
-            Platform.OS === 'ios'
-            ?
+          {Platform.OS === 'ios' ? (
             <>
-              <SignInSocialButton onPress={handleSignInWithGoogle} title='Entrar com Google' svg={GoogleSvg} />
-              <SignInSocialButton onPress={handleSignInWithApple} title='Entrar com Apple' svg={AppleSvg} />
+              <SignInSocialButton
+                onPress={handleSignInWithGoogle}
+                title="Entrar com Google"
+                svg={GoogleSvg}
+              />
+              <SignInSocialButton
+                onPress={handleSignInWithApple}
+                title="Entrar com Apple"
+                svg={AppleSvg}
+              />
             </>
-            :
-            <SignInSocialButton onPress={handleSignInWithGoogle} title='Entrar com Google' svg={GoogleSvg} />
-          }
+          ) : (
+            <SignInSocialButton
+              onPress={handleSignInWithGoogle}
+              title="Entrar com Google"
+              svg={GoogleSvg}
+            />
+          )}
         </FooterWrapper>
-        { isLoading && <ActivityIndicator color={theme.colors.primary} style={{ marginTop: 18 }} size='small' /> }
+        {isLoading && (
+          <ActivityIndicator
+            color={theme.colors.primary}
+            style={{ marginTop: 18 }}
+            size="small"
+          />
+        )}
       </Footer>
     </Container>
   );

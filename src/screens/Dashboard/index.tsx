@@ -57,7 +57,6 @@ export function Dashboard(){
 
   const collectionKey = `@gofinances:transactions_user:${user.id}`;
 
-
   function getHours() {
     const hours = new Date().getHours();
 
