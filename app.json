@@ -8,6 +8,11 @@
     "scheme": "gofinances",
     "version": "1.0.0",
     "icon": "./resource/android/logo.png",
+    "splash": {
+      "image": "./resource/android/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#5636D3"
+    },
 
     "assetBundlePatterns": ["**/*"],
     "ios": {
